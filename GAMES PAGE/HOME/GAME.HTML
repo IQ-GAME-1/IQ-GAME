@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        #cover-photo {
+            width: 100%;
+            height: 350px;
+            background-image: url('20231206_184925_0000.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #image-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .image {
+            width: 30%;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s;
+        }
+
+        .image:hover img {
+            transform: scale(1.1);
+        }
+
+        .comments-section {
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #comments-section {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 1200px;
+            text-align: right;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #comments-container {
+            margin-top: 20px;
+        }
+
+        .comment {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .comment p {
+            margin: 0;
+        }
+
+        .commenter-name {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        #name,
+        #commentText {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #submitBtn {
+            background-color: #3498db;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #submitBtn:hover {
+            background-color: #2980b9;
+        }
+
+        /* تضمين كود الـ "cart profile" هنا */
+       .profile-card {
+    background-color: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 200px; /* يمكنك تعديل عرض العنصر هنا */
+    text-align: center;
+    color: #fff;
+    animation: myAnim 2s ease 0s 1 normal forwards;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+}
+        .profile-image {
+            width: 100%;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .profile-image img {
+            width: 100%;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border: 5px solid #ff8c00;
+        }
+
+        .profile-info {
+            padding: 20px;
+        }
+
+        .profile-title {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-subtitle {
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff8c00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .profile-button:hover {
+            background-color: #e07d00;
+        }
+
+        /* إضافة أنميشن */
+@keyframes myAnim {
+    0% {
+        animation-timing-function: ease-in;
+        opacity: 1;
+        transform: translateY(45px);
+    }
+
+    24% {
+        opacity: 1;
+    }
+
+    40% {
+        animation-timing-function: ease-in;
+        transform: translateY(24px);
+    }
+
+    65% {
+        animation-timing-function: ease-in;
+        transform: translateY(12px);
+    }
+
+    82% {
+        animation-timing-function: ease-in;
+        transform: translateY(6px);
+    }
+
+    93% {
+        animation-timing-function: ease-in;
+        transform: translateY(4px);
+    }
+
+    25%, 55%, 75%, 87% {
+        animation-timing-function: ease-out;
+        transform: translateY(0px);
+    }
+
+    100% {
+        animation-timing-function: ease-out;
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+#enter-contest {
+    width: 100%;
+    text-align: center; /* ÙØªÙØ³ÙØ¹ Ø§ÙØ²Ø± ÙÙ Ø§ÙÙØ³Ø· */
+    margin-bottom: 20px; /* Ø¥Ø¶Ø§ÙØ© ÙØ³Ø§ÙØ© Ø¨ÙÙ Ø§ÙØ²Ø± ÙÙÙØ·ÙØ© Ø§ÙØªØ¹ÙÙÙØ§Øª */
+}
+.comments-section {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 50px; /* ØªØ­Ø¯ÙØ¯ Ø§ÙÙØ³Ø§ÙØ© Ø¨ÙÙ ÙÙØ·ÙØ© Ø§ÙØªØ¹ÙÙÙØ§Øª ÙÙÙØ§ÙØ© Ø§ÙØµÙØ­Ø© */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+</style>
+</head>
+<body>
+<div id="cover-photo"></div>
+<div id="image-row">
+    <div class="image">
+        <a href="\IQ GAME\GAMES PAGE\HISTORY\Questions 1.html"
+            target="_blank">
+            <img src="20231206_184047_0000.png" alt="Image 1">
+        </a>
+    </div>
+    <div class="image">
+        <a href="\IQ GAME\GAMES PAGE\PROGRAMMING\Questions 1.html"
+            target="_blank">
+            <img src="20231206_184048_0001.png" alt="Image 2">
+        </a>
+    </div>
+    <div class="image">
+        <a href="\IQ GAME\ERROR\404.html"
+            target="_blank">
+            <img src="20231206_184048_0002.png" alt="Image 3">
+        </div>
+		   <div class="image">
+        <a href="\IQ GAME\GAMES PAGE\FLAG\Questions 1.html"
+            target="_blank">
+            <img src="20231206_185532_0000.png" alt="Image 2">
+        </a>
+    </div>
+<div class="image">
+    <a href="\IQ GAME\GAMES PAGE\CHESS\CHESS.html"
+        target="_blank">
+        <img src=" 20231218_205704_0000.png" alt="Image 4">
+    </a>
+</div>
+<div class="image">
+    <a href="\IQ GAME\GAMES PAGE\Famous personality\Famous personality.HTML"
+        target="_blank">
+        <img src="20231218_205704_0001.png" alt="Image 4">
+    </a>
+</div>
+</div>
+ <div id="special-event">
+    <img src="20231221_183219_0000.png" alt="Special Event Image" style="width: 100%; height: auto;">
+</div>
+<div id="enter-contest">
+    <a href="\IQ GAME\GAMES PAGE\The weekly competition\The weekly competition.html" style="text-decoration: none;">
+      <button class="button type1">
+  <span class="btn-txt">العب الان</span>
+</button>
+<style>
+#special-event {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.button {
+    height: 50px;
+    width: 200px;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+    border: 2px solid #252525;
+    overflow: hidden;
+    border-radius: 30px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s; /* Ø¥Ø¶Ø§ÙØ© ÙÙÙ Ø§ÙØªÙØ§ÙÙ */
+}
+
+.button:hover {
+    box-shadow: none; /* Ø¥Ø²Ø§ÙØ© Ø§ÙÙÙØ¬ Ø¹ÙØ¯ Ø§ÙØªØ­ÙÙÙ */
+    color: #fff; /* ÙÙÙ Ø§ÙÙØµ Ø¹ÙØ¯ Ø§ÙØªØ­ÙÙÙ */
+    background-color: #252525; /* ÙÙÙ Ø§ÙØ²Ø± Ø¹ÙØ¯ Ø§ÙØªØ­ÙÙÙ */
+}
+
+.type1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: #333;
+    border-radius: 30px;
+    visibility: hidden;
+    height: 10px;
+    width: 10px;
+    z-index: -1;
+}
+</style>
+    </a>
+</div>
+<div class="comments-section">
+    <div id="comments-section">
+        <h3>اترك تعليقًا</h3>
+        <input type="text" id="name" placeholder="اسمك">
+        <textarea id="commentText" placeholder="تعليقك"></textarea>
+        <button id="submitBtn" onclick="submitComment()">ارسال</button>
+
+        <div id="comments-container"></div>
+    </div>
+</div>
+<!-- تضمين الـ "cart profile" -->
+<div class="profile-card" id="profileCard">
+    <div class="profile-image">
+        <img src="20231217_155712_0000.png" alt="Profile Image">
+    </div>
+    <div class="profile-info">
+        <div class="profile-title">IQ GAME</div>
+        <div class="profile-subtitle">created by: </div>
+        <a href="\IQ GAME\GAMES PAGE\About Us\About.html" class="profile-button">Abdellatif
+            Fatih</a>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var profileCard = document.querySelector('.profile-card');
+        var profileTimeout;
+
+        function showProfile() {
+            profileCard.style.display = 'block';
+            profileTimeout = setTimeout(hideProfile, 300000); // 5 minutes
+        }
+
+        function hideProfile() {
+            profileCard.style.display = 'none';
+            setTimeout(showProfile, 60000); // 1 minute
+        }
+
+        showProfile(); // initial display
+
+        // إضافة تابع إرسال التعليق كما في الكود السابق
+        function submitComment() {
+            var name = document.getElementById('name').value;
+            var commentText = document.getElementById('commentText').value;
+            var commentsContainer = document.getElementById('comments-container');
+
+            if (name && commentText) {
+                var commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+                commentDiv.innerHTML = '<p><span class="commenter-name">' + name + ':</span> ' + commentText + '</p>';
+                commentsContainer.appendChild(commentDiv);
+                // افرغ حقول الإدخال بعد إرسال التعليق
+                document.getElementById('name').value = '';
+                document.getElementById('commentText').value = '';
+            }
+        }
+    });
+  
+        // إضافة تابع إرسال التعليق كما في الكود السابق
+        function submitComment() {
+            var name = document.getElementById('name').value;
+            var commentText = document.getElementById('commentText').value;
+            var commentsContainer = document.getElementById('comments-container');
+
+            if (name && commentText) {
+                var commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+                commentDiv.innerHTML = '<p><span class="commenter-name">' + name + ':</span> ' + commentText + '</p>';
+                commentsContainer.appendChild(commentDiv);
+                // افرغ حقول الإدخال بعد إرسال التعليق
+                document.getElementById('name').value = '';
+                document.getElementById('commentText').value = '';
+            }
+        }
+</script>
+</body>
+</html>
+
+

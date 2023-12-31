@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ... (نفس الأنماط السابقة) */
+						        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .cover-image {
+            width: 100%;
+            margin-top: -75px;
+        }
+
+        .flag-section {
+            margin: -5px 0; /* زيادة المسافة بين الغلاف وصورة العلم */
+        }
+
+        .flag-section img {
+            border: 8px solid white;
+            border-radius: 15px;
+            width: 30%; /* تصغير حجم العلم */
+        }
+
+        .question-text {
+            color: black;
+            font-size: 30px; /* تكبير حجم السؤال */
+            margin-top: 10px;
+            font-family: 'Arabic_Font'; /* استبدال 'Arabic_Font' بالخط العربي الذي تفضله */
+        }
+
+        .options-section {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .option {
+            width: 200px; /* زيادة عرض الخيارات */
+            padding: 15px;
+            border: 2px solid black; /* لون الخط الخارجي */
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold; /* جعل الكتابة bold */
+        }
+
+        .option:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .result-section {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 60px; /* زيادة حجم زر التالي */
+            font-size: 20px; /* زيادة حجم النص */
+            cursor: pointer;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+		button {
+    /* الستايلات الحالية */
+    margin-bottom: 20px; /* إضافة هذا السطر لإضافة مسافة بين زر التالي ونهاية الصفحة */
+}
+    </style>
+    <title>مسابقة اعلام الدول</title>
+</head>
+
+<body>
+    <div class="cover-image">
+        <img src="20231207_214552_0000.png" alt="Cover Image">
+    </div>
+
+    <div class="flag-section">
+        <img src="images.png" alt="Flag Image">
+        <p class="question-text">ما اسم علم هذه الدولة؟</p>
+    </div>
+
+    <div class="options-section">
+        <div class="option" onclick="checkAnswer(this)">ليختنشتاين</div>
+        <div class="option" onclick="checkAnswer(this)">لوكسمبورغ</div>
+        <div class="option" onclick="checkAnswer(this)">أيسلندا</div>
+        <div class="option" onclick="checkAnswer(this)">موناكو</div>
+    </div>
+
+    <div class="result-section">
+        <p>نتيجتك: <span id="score">0</span> نقطة</p>
+        <button onclick="nextQuestion()">التالي</button>
+    </div>
+
+    <script>
+         let score = 0;
+
+        function checkAnswer(selectedOption) {
+            const correctOption = "ليختنشتاين";
+
+            if (selectedOption.textContent === correctOption) {
+                selectedOption.style.backgroundColor = "#2ecc71";
+                score++;
+            } else {
+                selectedOption.style.backgroundColor = "#e74c3c";
+            }
+
+            document.querySelectorAll('.option').forEach(option => option.style.pointerEvents = 'none');
+            document.getElementById('score').textContent = score;
+        }
+
+        function nextQuestion() {
+            document.querySelectorAll('.option').forEach(option => option.style.pointerEvents = 'auto');
+            document.querySelectorAll('.option').forEach(option => option.style.backgroundColor = '');
+        }
+		
+        function nextQuestion() {
+            const nextQuestionFile = 'end.HTML';
+            window.open(nextQuestionFile, '_self');
+        }
+    </script>
+</body>
+
+</html>
