@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مسابقة شخصيات مشهورة</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    .quiz-container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .question img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option {
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #3498db;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .score-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #219653;
+    }
+
+    .result-container {
+      text-align: center;
+    }
+	.rating {
+      direction: rtl;
+      margin-top: auto; /* Ø¬Ø¹Ù Ø§ÙÙØ¤Ø´Ø± ÙÙ Ø§ÙÙØ³Ø· */
+      text-align: center; /* ØªØ­ÙÙÙ Ø¥ÙÙ Ø§ÙÙØ³Ø· */
+    }
+
+    /* ... Ø¨Ø§ÙÙ Ø§ÙØ£ÙÙØ§Ø· ÙÙØ§ ... */
+    .rating:not(:checked) > input {
+      position: absolute;
+      appearance: none;
+    }
+
+    .rating:not(:checked) > label {
+      float: right;
+      cursor: pointer;
+      font-size: 30px;
+      color: #666;
+    }
+
+    .rating:not(:checked) > label:before {
+      content: '★';
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+      color: #e58e09;
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+      color: #ff9e0b;
+    }
+
+    .rating > input:checked ~ label {
+      color: #ffa723;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="header">
+      <h1>من هذه الشخصية المشهورة؟</h1>
+    </div>
+    <div class="question">
+      <img src="20231219_131509_0000.png" alt="صورة السؤال">
+      <div class="options">
+        <div class="option" onclick="checkAnswer(this)">إيلون ماسك
+</div>
+        <div class="option" onclick="checkAnswer(this)">كليوباترا</div>
+        <div class="option" onclick="checkAnswer(this)">نيل أرمسترونغ</div>
+        <div class="option" onclick="checkAnswer(this)">مارتن لوثر</div>
+      </div>
+	  
+    </div>
+    <div class="score-container">
+      <p>النقاط: <span id="score">0</span></p>
+    </div>
+    <button id="nextButton" onclick="nextQuestion()">التالي</button>
+  </div>
+
+  <script>
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = [];
+
+    const questions = [
+      {
+        image: '20231219_131509_0000.png',
+        options: ['إيلون ماسك', 'كليوباترا', 'نيل أرمسترونغ', 'مارتن لوثر'],
+        answer: 'إيلون ماسك'
+      },
+      {
+        image: '20231219_131509_0001.png',
+        options: ['إليزابيث الثانية', 'ألبرت إينشتاين', 'نابليون بونابرت', 'محمد علي باشا'],
+        answer: 'نابليون بونابرت'
+      },
+      
+      {
+        image: '20231219_131509_0002.png',
+        options: ['جان دارك', 'محمد علي كلاي', 'ملكة نفرتيتي', 'نابليون بونابرت'],
+        answer: 'محمد علي كلاي'
+      },
+      {
+        image: '20231219_131509_0004.png',
+        options: ['نابليون بونابرت', 'محمد علي باشا', 'ملكة نفرتيتي', 'ملكة إليزابيث الثانية'],
+        answer: 'ملكة إليزابيث الثانية'
+      },
+      {
+        image: '20231219_131509_0003.png',
+        options: ['نيل أرمسترونغ', 'ألبرت إينشتاين', 'ألبرت إينشتاين', 'محمد علي باشا'],
+        answer: 'ألبرت إينشتاين'
+      },
+    ];
+
+    function loadQuestion() {
+      const question = questions[currentQuestion];
+      document.querySelector('.question img').src = question.image;
+
+      const optionsContainer = document.querySelector('.options');
+      optionsContainer.innerHTML = '';
+
+      question.options.forEach(option => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('option');
+        optionElement.textContent = option;
+        optionElement.onclick = function() {
+          checkAnswer(this);
+        };
+
+        optionsContainer.appendChild(optionElement);
+      });
+    }
+
+    function checkAnswer(selectedOption) {
+      const selectedAnswer = selectedOption.textContent;
+      const correctAnswer = questions[currentQuestion].answer;
+
+      if (selectedAnswer === correctAnswer) {
+        score++;
+        document.getElementById('score').textContent = score;
+        selectedOption.style.backgroundColor = '#2ecc71';
+      } else {
+        selectedOption.style.backgroundColor = '#e74c3c';
+      }
+
+      // Save the user's answer
+      userAnswers.push({
+        question: currentQuestion + 1,
+        answer: selectedAnswer,
+        isCorrect: selectedAnswer === correctAnswer
+      });
+
+      // Disable further clicks on options
+      const options = document.querySelectorAll('.option');
+      options.forEach(option => option.onclick = null);
+
+      // Enable the next button
+      document.getElementById('nextButton').disabled = false;
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+        resetOptions();
+      } else {
+        showResult();
+      }
+
+      // Disable the next button until the user answers the current question
+      document.getElementById('nextButton').disabled = true;
+    }
+
+    function resetOptions() {
+      const options = document.querySelectorAll('.option');
+      options.forEach(option => {
+        option.style.backgroundColor = '#3498db';
+        option.onclick = function() {
+          checkAnswer(this);
+        };
+      });
+    }
+
+    function showResult() {
+      const resultContainer = document.createElement('div');
+      resultContainer.classList.add('result-container');
+      resultContainer.innerHTML = `
+        <h2>انتهت المسابقة</h2>
+        <p>النقاط الكلية: ${score}</p>
+        <p>شكراً لمشاركتك!</p>
+      <div class="rating">
+    <input value="5" name="rate" id="star5" type="radio">
+    <label title="text" for="star5"></label>
+    <input value="4" name="rate" id="star4" type="radio">
+    <label title="text" for="star4"></label>
+    <input value="3" name="rate" id="star3" type="radio" checked="">
+    <label title="text" for="star3"></label>
+    <input value="2" name="rate" id="star2" type="radio">
+    <label title="text" for="star2"></label>
+    <input value="1" name="rate" id="star1" type="radio">
+    <label title="text" for="star1"></label>
+  </div>
+
+        
+      `;
+      document.querySelector('.quiz-container').innerHTML = '';
+      document.body.appendChild(resultContainer);
+
+      // Calculate and display the game rating
+      const ratingInput = document.getElementById('rating');
+      ratingInput.textContent = calculateRating(score);
+
+      // Enable the next button until the user answers the current question
+      document.getElementById('nextButton').disabled = false;
+    }
+
+    function calculateRating(score) {
+      // Assume a maximum score of 10
+      const maxScore = 10;
+      const percentage = (score / questions.length) * 100;
+      const rating = Math.round((percentage / 100) * maxScore);
+      return rating;
+    }
+
+   
+
+    // Load the first question when the page loads
+    window.onload = loadQuestion;
+	  // ... الكود الرئيسي
+
+    function downloadPDF() {
+      console.log('User Answers:', userAnswers);
+
+      // إظهار النجمات بعد تقييم اللعبة
+      const ratingContainer = document.querySelector('.rating');
+      ratingContainer.innerHTML = `
+        <p>قيم اللعبة:</p>
+        <div class="rating">
+          <input value="5" name="rate" id="star5" type="radio">
+          <label title="text" for="star5"></label>
+          <input value="4" name="rate" id="star4" type="radio">
+          <label title="text" for="star4"></label>
+          <input value="3" name="rate" id="star3" type="radio">
+          <label title="text" for="star3"></label>
+          <input value="2" name="rate" id="star2" type="radio">
+          <label title="text" for="star2"></label>
+          <input value="1" name="rate" id="star1" type="radio">
+          <label title="text" for="star1"></label>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

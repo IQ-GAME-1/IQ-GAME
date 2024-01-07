@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            justify-content: center;
+        }
+
+        .question-container {
+            background-color: #3498db;
+            color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container {
+            width: 250px;
+            height: 250px;
+            background-color: #fff;
+            border: 2px solid #3498db;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .option {
+            width: 120px;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            margin: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .option:hover {
+            background-color: #2980b9;
+        }
+
+        .next-button {
+            background-color: #27ae60;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .next-button:hover {
+            background-color: #218c53;
+        }
+    </style>
+    <title>مسابقة التاريخ</title>
+</head>
+
+<body>
+    <div class="quiz-container">
+        <div class="question-container">
+            <div class="image-container">
+                <!-- يمكنك إضافة الصورة هنا -->
+                <img src="Leonardo_Creative_Leonardo_AI_crafts_a_vivid_portrayal_of_the_2.jpg" alt="وصف الصورة الخامسة">
+            </div>
+            <p id="question" style="font-size: 24px;">متى بدأت الثورة الصناعية؟</p>
+            <div class="options-container">
+                <div class="option" onclick="checkAnswer(this)">في أوائل القرن التاسع عشر</div>
+                <div class="option" onclick="checkAnswer(this)">في أوائل القرن العشرين</div>
+                <div class="option" onclick="checkAnswer(this)">في أوائل القرن السابع عشر</div>
+                <div class="option" onclick="checkAnswer(this)">في أوائل القرن العاشر</div>
+            </div>
+        </div>
+        <button class="next-button" onclick="goToNextPage()">التالي</button>
+    </div>
+
+    <script>
+        function checkAnswer(selectedOption) {
+            const correctOption = "في أوائل القرن التاسع عشر";
+            const score = selectedOption.textContent === correctOption ? 1 : 0;
+            selectedOption.style.backgroundColor = score ? "#2ecc71" : "#e74c3c";
+            selectedOption.style.color = "#fff";
+            document.querySelector(".next-button").style.display = "block";
+        }
+
+        function goToNextPage() {
+            // يمكنك تعديل عنوان الصفحة التالية هنا
+            window.location.href = 'end.HTML';
+                    }
+    </script>
+</body>
+
+</html>

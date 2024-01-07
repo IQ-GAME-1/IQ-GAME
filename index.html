@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQ GAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-image: url('20231206_175113_0000.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            color: #fff;
+        }
+
+        #welcome-section {
+            margin-bottom: 50px;
+        }
+
+        #welcome-text {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #login-button {
+            background-color: #1877f2;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            outline: none;
+        }
+
+        /* Ø²Ø± Ø§ÙØªØ­ÙÙ ÙÙ Ø§ÙØµÙØª */
+        .toggleSwitch {
+            width: 50px;
+            height: 50px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(39, 39, 39);
+            border-radius: 50%;
+            cursor: pointer;
+            transition-duration: .3s;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+            overflow: hidden;
+        }
+
+        #checkboxInput {
+            display: none;
+        }
+
+        .bell {
+            width: 18px;
+        }
+
+        .bell path {
+            fill: white;
+        }
+
+        .speaker {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition-duration: .3s;
+        }
+
+        .speaker svg {
+            width: 18px;
+        }
+
+        .mute-speaker {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            z-index: 3;
+            transition-duration: .3s;
+        }
+
+        .mute-speaker svg {
+            width: 18px;
+        }
+
+        #checkboxInput:checked+.toggleSwitch .speaker {
+            opacity: 0;
+            transition-duration: .3s;
+        }
+
+        #checkboxInput:checked+.toggleSwitch .mute-speaker {
+            opacity: 1;
+            transition-duration: .3s;
+        }
+
+        #checkboxInput:active+.toggleSwitch {
+            transform: scale(0.7);
+        }
+
+        #checkboxInput:hover+.toggleSwitch {
+            background-color: rgb(61, 61, 61);
+        }
+
+        /* ØµÙØª ØºÙØ± ÙØ±Ø¦Ù */
+        #backgroundMusic {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ø¹ÙØµØ± Ø§ÙØµÙØª -->
+    <audio id="backgroundMusic" controls autoplay loop>
+        <source src="Race To The Finish Line - Experia(MP3_160K).mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="welcome-section">
+        <div id="welcome-text">
+            <!-- ÙÙÙÙÙ Ø¥Ø¶Ø§ÙØ© ÙØµ ØªØ±Ø­ÙØ¨ ÙÙØ§ -->
+        </div>
+        <a href="GAMES PAGE\HOME\GAME.HTML">
+            <button id="login-button">تسجيل الدخول</button>
+        </a>
+    </div>
+
+    <!-- Ø²Ø± Ø§ÙØªØ­ÙÙ ÙÙ Ø§ÙØµÙØª -->
+    <input type="checkbox" id="checkboxInput">
+    <label for="checkboxInput" class="toggleSwitch">
+        <div class="speaker">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 75 75">
+                <path
+                    d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z"
+                    style="stroke:#fff;stroke-width:5;stroke-linejoin:round;fill:#fff;"></path>
+                <path d="M48,27.6a19.5,19.5 0 0 1 0,21.4M55.1,20.5a30,30 0 0 1 0,35.6M61.6,14a38.8,38.8 0 0 1 0,48.6"
+                    style="fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round"></path>
+            </svg>
+        </div>
+        <div class="mute-speaker">
+            <svg version="1.0" viewBox="0 0 75 75" stroke="#fff" stroke-width="5">
+                <path d="m39,14-17,15H6V48H22l17,15z" fill="#fff" stroke-linejoin="round"></path>
+                <path d="m49,26 20,24m0-24-20,24" fill="#fff" stroke-linecap="round"></path>
+            </svg>
+        </div>
+    </label>
+
+    <script>
+        // ØªØ­Ø¯ÙØ¯ Ø¹ÙØµØ± Ø§ÙØµÙØª ÙØ¹ÙØµØ± Ø²Ø± Ø§ÙØªØ­ÙÙ ÙÙ Ø§ÙØµÙØª
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const muteCheckbox = document.getElementById('checkboxInput');
+
+        // Ø§ÙØªØ­ÙÙ ÙÙ Ø­Ø§ÙØ© Ø²Ø± Ø§ÙØªØ­ÙÙ ÙÙ Ø§ÙØµÙØª
+        muteCheckbox.addEventListener('change', function () {
+            // Ø§ÙØªØ­ÙÙ ÙÙ Ø­Ø§ÙØ© Ø²Ø± ØªØ­ÙÙ Ø§ÙØµÙØª
+            if (muteCheckbox.checked) {
+                // Ø¥ÙÙØ§Ù ØªØ´ØºÙÙ Ø§ÙÙÙØ³ÙÙÙ
+                backgroundMusic.pause();
+            } else {
+                // ØªØ´ØºÙÙ Ø§ÙÙÙØ³ÙÙÙ
+                backgroundMusic.play();
+            }
+        });
+
+        // ØªØ´ØºÙÙ Ø§ÙØµÙØª ØªÙÙØ§Ø¦ÙÙØ§ Ø¹ÙØ¯ ØªØ­ÙÙÙ Ø§ÙØµÙØ­Ø©
+        document.addEventListener('DOMContentLoaded', function () {
+            backgroundMusic.play();
+        });
+    </script>
+
+</body>
+
+</html>
